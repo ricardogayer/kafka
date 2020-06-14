@@ -5,10 +5,15 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+@EnableKafka
 @Component
 public class Consumer {
 
-    @KafkaListener(topics = "NewTopic", groupId = "group_id")
+    /*
+    kafka-console-consumer.sh --bootstrap-server 10.0.1.9:9092 --topic NewTopic --from-beginning --group group_id
+     */
+
+    @KafkaListener(topics = "#{'${cloudkarafka.topic}'}", groupId = "#{'${spring.kafka.consumer.group-id}'}")
     public void consumer(@Payload Book book) {
 
         System.out.println("****************************************");
